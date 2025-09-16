@@ -1,37 +1,26 @@
 import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
 import { ZodError } from "zod"
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/db"
+import { getToken } from "next-auth/jwt"
+import { NextRequest } from "next/server"
 
 export const createTRPCContext = async (opts: { req: Request }) => {
   const { req } = opts
 
-  console.log("[v0] Creating tRPC context")
+  console.log("[trpc] Creating context")
 
-  const userId = req.headers.get("x-user-id")
-  const userEmail = req.headers.get("x-user-email")
-  const userName = req.headers.get("x-user-name")
+  // Convert to NextRequest so next-auth/jwt can parse cookies
+  const nextReq = new NextRequest(req.url, { headers: req.headers })
+  const token = await getToken({ req: nextReq, secret: process.env.NEXTAUTH_SECRET })
 
-  console.log("[v0] Headers received:", { userId, userEmail, userName })
-
-  // If no user headers, try to get from mock auth or create a default user
-  let user = null
-  if (userId) {
-    user = {
-      id: userId,
-      email: userEmail || "user@example.com",
-      name: userName || "Mock User",
-    }
-  } else {
-    console.log("[v0] No user headers found, creating default user")
-    user = {
-      id: "user-1",
-      email: "john@example.com",
-      name: "John Doe",
-    }
-  }
-
-  console.log("[v0] Final user object:", user)
+  const user = token
+    ? {
+        id: String(token.id ?? ""),
+        email: String(token.email ?? ""),
+        name: String(token.name ?? ""),
+      }
+    : null
 
   return {
     prisma,
@@ -58,14 +47,10 @@ export const publicProcedure = t.procedure
 
 // Protected procedure that requires authentication
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  console.log("[v0] Protected procedure - checking user:", ctx.user)
-
-  if (!ctx.user) {
-    console.log("[v0] No user found, throwing UNAUTHORIZED")
+  if (!ctx.user || !ctx.user.id) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
 
-  console.log("[v0] User authenticated, proceeding with:", ctx.user.id)
   return next({
     ctx: {
       ...ctx,

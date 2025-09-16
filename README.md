@@ -18,8 +18,8 @@ A professional career counseling chat application built with Next.js 14+, TypeSc
 - **Backend**: tRPC v11, Prisma ORM, PostgreSQL
 - **UI**: Tailwind CSS, shadcn/ui components
 - **State Management**: TanStack Query (React Query)
-- **Authentication**: Mock Auth (ready for NextAuth.js)
-- **AI Integration**: Placeholder service (ready for OpenAI API)
+- **Authentication**: NextAuth.js (Credentials provider)
+- **AI Integration**: Placeholder service (ready for OpenAI/Together/OpenRouter)
 
 ## 📋 Prerequisites
 
@@ -89,7 +89,7 @@ A professional career counseling chat application built with Next.js 14+, TypeSc
    
    ## 🔒 Authentication
    
-   The application uses NextAuth.js for authentication with the following features:
+   The application uses NextAuth.js (Credentials provider) for authentication with the following features:
    - Email/password authentication
    - Session management with JWT
    - Protected routes
@@ -112,15 +112,7 @@ A professional career counseling chat application built with Next.js 14+, TypeSc
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## 🔐 Demo Authentication
-
-The app includes demo authentication for development. Use these credentials:
-The app includes mock authentication for development. Use these credentials:
-
-- **Email**: john@example.com
-- **Password**: password123
-
-Or create a new account through the signup form.
+<!-- Demo authentication section removed: the app now requires real sign-up/sign-in via NextAuth credentials. -->
 
 ## 📊 Database Schema
 

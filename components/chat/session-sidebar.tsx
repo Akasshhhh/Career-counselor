@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { signOut } from "next-auth/react"
 import { trpc } from "@/lib/trpc/client"
@@ -29,6 +29,13 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
   const { data: sessions, isLoading } = trpc.chat.getSessions.useQuery(undefined, {
     enabled: !!session?.user
   })
+
+  // Auto-select the first session if none is selected
+  useEffect(() => {
+    if (!selectedSessionId && sessions && sessions.length > 0) {
+      onSelectSession(sessions[0].id)
+    }
+  }, [selectedSessionId, sessions, onSelectSession])
 
   const createSessionMutation = trpc.chat.createSession.useMutation({
     onSuccess: (session) => {
@@ -86,17 +93,19 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
   }
 
   return (
-    <Card className="w-80 flex flex-col">
-      <div className="p-4 border-b">
-        <div className="flex items-center space-x-2">
-          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-            {session?.user?.name?.charAt(0) || "U"}
+    <Card className="w-full h-full flex flex-col">
+      <div className="p-4 border-b flex-shrink-0">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-2">
+            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+              {session?.user?.name?.charAt(0) || "U"}
+            </div>
+            <span className="text-sm font-medium">{session?.user?.name || "User"}</span>
           </div>
-          <span className="text-sm font-medium">{session?.user?.name || "User"}</span>
+          <Button variant="ghost" size="icon" onClick={handleSignOut}>
+            <LogOut className="h-4 w-4" />
+          </Button>
         </div>
-        <Button variant="ghost" size="icon" onClick={handleSignOut}>
-          <LogOut className="h-4 w-4" />
-        </Button>
         {isCreating ? (
           <form onSubmit={handleCreateSession} className="space-y-2">
             <Input
@@ -125,15 +134,15 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
             </div>
           </form>
         ) : (
-          <Button onClick={() => setIsCreating(true)} className="w-full" variant="outline">
+          <Button id="create-session-button" onClick={() => setIsCreating(true)} className="w-full" variant="outline">
             <Plus className="h-4 w-4 mr-2" />
-            New Session
+            Create New Chat
           </Button>
         )}
       </div>
 
-      <ScrollArea className="flex-1">
-        <div className="p-2">
+      <ScrollArea className="flex-1 min-h-0">
+        <div className="p-4">
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>

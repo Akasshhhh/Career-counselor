@@ -95,15 +95,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
             Don't have an account? Sign up
           </Button>
         </div>
-        <div className="mt-4 p-3 bg-muted rounded-md">
-          <p className="text-sm text-muted-foreground">
-            <strong>Demo credentials:</strong>
-            <br />
-            Email: john@example.com
-            <br />
-            Password: password123
-          </p>
-        </div>
+        {/* Removed demo credentials panel */}
       </CardContent>
     </Card>
   )

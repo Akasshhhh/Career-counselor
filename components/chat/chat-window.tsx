@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import { trpc } from "@/lib/trpc/client"
 import { ChatMessage } from "./chat-message"
 import { ChatInput } from "./chat-input"
-import { MessageRole } from "@/lib/types"
+import { MessageRole as PrismaMessageRole } from "@prisma/client"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Card } from "@/components/ui/card"
 
@@ -32,7 +32,7 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
       await sendMessageMutation.mutateAsync({
         sessionId,
         content,
-        role: MessageRole.USER,
+        // role is handled by the backend
       })
     } catch (error) {
       console.error("Failed to send message:", error)
@@ -67,16 +67,16 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
   }
 
   return (
-    <Card className="flex-1 flex flex-col">
-      <div className="p-4 border-b">
+    <Card className="h-full flex flex-col">
+      <div className="p-4 border-b flex-shrink-0">
         <h2 className="font-semibold text-lg">{session.title}</h2>
         <p className="text-sm text-muted-foreground">Career Counseling Session</p>
       </div>
 
-      <ScrollArea ref={scrollAreaRef} className="flex-1">
-        <div className="min-h-full">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 min-h-0">
+        <div className="p-4">
           {session.messages.length === 0 ? (
-            <div className="flex items-center justify-center h-full p-8">
+            <div className="flex items-center justify-center min-h-[400px]">
               <div className="text-center">
                 <h3 className="text-lg font-medium mb-2">Start Your Career Conversation</h3>
                 <p className="text-muted-foreground mb-4">
@@ -91,7 +91,7 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
               </div>
             </div>
           ) : (
-            <div className="space-y-0">
+            <div className="space-y-4">
               {session?.messages.map((message) => (
                 <ChatMessage
                   key={message.id}
@@ -107,7 +107,9 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
         </div>
       </ScrollArea>
 
-      <ChatInput onSendMessage={handleSendMessage} disabled={sendMessageMutation.isPending} />
+      <div className="flex-shrink-0">
+        <ChatInput onSendMessage={handleSendMessage} disabled={sendMessageMutation.isPending} />
+      </div>
     </Card>
   )
 }

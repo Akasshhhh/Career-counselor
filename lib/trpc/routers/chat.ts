@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { createTRPCRouter, protectedProcedure } from "../server"
-import { MessageRole } from "@/lib/types"
+import { MessageRole as PrismaMessageRole } from "@prisma/client"
 import { careerCounselorAI } from "@/lib/ai/career-counselor"
 
 export const chatRouter = createTRPCRouter({
@@ -20,7 +20,7 @@ export const chatRouter = createTRPCRouter({
       },
     })
 
-    return sessions.map((session: { lastMessage: Date | null; updatedAt: Date }) => ({
+    return sessions.map((session) => ({
       ...session,
       lastActivity: session.lastMessage || session.updatedAt,
     }))
@@ -102,8 +102,8 @@ export const chatRouter = createTRPCRouter({
 
     if (!session) return null
 
-    const userMessages = session.messages.filter((m: { role: MessageRole }) => m.role === MessageRole.USER)
-    const assistantMessages = session.messages.filter((m: { role: MessageRole }) => m.role === MessageRole.ASSISTANT)
+    const userMessages = session.messages.filter((m) => m.role === PrismaMessageRole.USER)
+    const assistantMessages = session.messages.filter((m) => m.role === PrismaMessageRole.ASSISTANT)
 
     const firstMessage = session.messages[0]
     const lastMessage = session.messages[session.messages.length - 1]
@@ -146,7 +146,7 @@ export const chatRouter = createTRPCRouter({
       const userMessage = await ctx.prisma.message.create({
         data: {
           content: input.content,
-          role: MessageRole.USER,
+          role: PrismaMessageRole.USER,
           status: 'SENT',
           chatSessionId: input.sessionId,
         },
@@ -163,7 +163,7 @@ export const chatRouter = createTRPCRouter({
       const aiMessage = await ctx.prisma.message.create({
         data: {
           content: aiResponse,
-          role: MessageRole.ASSISTANT,
+          role: PrismaMessageRole.ASSISTANT,
           status: 'SENT',
           chatSessionId: input.sessionId,
         },
@@ -181,10 +181,7 @@ export const chatRouter = createTRPCRouter({
         },
       })
 
-      // Update summary if needed
-      if (shouldUpdateSummary) {
-        await careerCounselorAI.generateSummary(input.sessionId, ctx.user.id)
-      }
+      // TODO: Implement conversation summary generation when AI provider is integrated
 
       return {
         userMessage,

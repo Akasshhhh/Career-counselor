@@ -1,18 +1,18 @@
-import { MessageRole } from "@/lib/types"
+import { MessageRole as PrismaMessageRole } from "@prisma/client"
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Bot, User } from "lucide-react"
 
 interface ChatMessageProps {
   content: string
-  role: MessageRole
+  role: PrismaMessageRole
   timestamp?: Date
   status?: 'SENT' | 'ERROR'
   className?: string
 }
 
 export function ChatMessage({ content, role, timestamp, status, className }: ChatMessageProps) {
-  const isUser = role === MessageRole.USER
+  const isUser = role === PrismaMessageRole.USER
   const isError = status === 'ERROR'
 
   return (
