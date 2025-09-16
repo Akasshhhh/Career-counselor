@@ -22,12 +22,12 @@ export default function DashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div className="h-screen flex justify-center bg-background overflow-hidden mt-[80px]">
-        <div className="w-full max-w-[1300px] h-screen grid grid-cols-12 overflow-hidden gap-3">
-          <div className="col-span-12 md:col-span-4 h-screen overflow-hidden min-h-0">
+      <div className="h-full flex justify-center bg-background md:overflow-hidden overflow-auto">
+        <div className="w-full max-w-[1300px] h-full grid grid-cols-12 md:overflow-hidden pb-4 overflow-auto gap-3">
+          <div className="col-span-12 md:col-span-4 h-full overflow-hidden min-h-0">
             <SessionSidebar selectedSessionId={selectedSessionId} onSelectSession={setSelectedSessionId} />
           </div>
-          <div className="col-span-12 md:col-span-8 flex flex-col h-screen overflow-hidden min-h-0">
+          <div className="col-span-12 md:col-span-8 flex flex-col h-full overflow-hidden min-h-0">
             {selectedSessionId ? (
               <ChatWindow sessionId={selectedSessionId} />
             ) : (

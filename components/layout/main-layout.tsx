@@ -9,9 +9,9 @@ type MainLayoutProps = {
 
 export function MainLayout({ children }: MainLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex h-screen overflow-hidden flex-col">
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 min-h-0 overflow-hidden">{children}</main>
     </div>
   )
 }

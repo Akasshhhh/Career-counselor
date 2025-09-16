@@ -67,8 +67,8 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
   }
 
   return (
-    <Card className="h-full flex flex-col">
-      <div className="p-4 border-b flex-shrink-0">
+    <Card className="h-full flex flex-col overflow-hidden min-h-0">
+      <div className="p-3 md:p-4 border-b flex-shrink-0">
         <h2 className="font-semibold text-lg">{session.title}</h2>
         <p className="text-sm text-muted-foreground">Career Counseling Session</p>
       </div>
@@ -76,7 +76,7 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
       <ScrollArea ref={scrollAreaRef} className="flex-1 min-h-0">
         <div className="p-4">
           {session.messages.length === 0 ? (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-[280px]">
               <div className="text-center">
                 <h3 className="text-lg font-medium mb-2">Start Your Career Conversation</h3>
                 <p className="text-muted-foreground mb-4">
