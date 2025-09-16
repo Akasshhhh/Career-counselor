@@ -1,0 +1,82 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String        @id @default(cuid())
+  email          String        @unique
+  name           String
+  hashedPassword String        @db.Text
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  chatSessions   ChatSession[]
+  sessions       Session[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ChatSession {
+  id          String     @id @default(cuid())
+  title       String
+  summary     String?    @db.Text     // periodically updated conversation summary
+  userId      String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  lastMessage DateTime?
+
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages    Message[]
+
+  @@index([userId, updatedAt])
+  @@index([userId, createdAt])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expires   DateTime
+  
+  @@index([email])
+  @@map("password_reset_tokens")
+}
+
+model Message {
+  id            String        @id @default(cuid())
+  content       String        @db.Text
+  role          MessageRole
+  status        MessageStatus @default(SENT)
+  chatSessionId String
+  createdAt     DateTime      @default(now())
+
+  chatSession   ChatSession   @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+
+  @@index([chatSessionId, createdAt])
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+enum MessageStatus {
+  SENT
+  ERROR
+}
