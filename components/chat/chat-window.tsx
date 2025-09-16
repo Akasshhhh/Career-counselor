@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react"
 import { trpc } from "@/lib/trpc/client"
 import { ChatMessage } from "./chat-message"
 import { ChatInput } from "./chat-input"
-import { MessageRole as PrismaMessageRole } from "@prisma/client"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Card } from "@/components/ui/card"
 

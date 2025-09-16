@@ -19,7 +19,7 @@ A professional career counseling chat application built with Next.js 14+, TypeSc
 - **UI**: Tailwind CSS, shadcn/ui components
 - **State Management**: TanStack Query (React Query)
 - **Authentication**: NextAuth.js (Credentials provider)
-- **AI Integration**: Placeholder service (ready for OpenAI/Together/OpenRouter)
+- **AI Integration**: OpenAI Chat Completions (fallback mock if `OPENAI_API_KEY` is not set)
 
 ## 📋 Prerequisites
 
@@ -31,10 +31,10 @@ A professional career counseling chat application built with Next.js 14+, TypeSc
 ## 🚀 Getting Started
 
 1. **Clone the repository**
-   \`\`\`bash
+   ```bash
    git clone <repository-url>
    cd career-chat-app
-   \`\`\`
+   ```
 
 2. **Install dependencies**
    ```bash
@@ -51,13 +51,10 @@ A professional career counseling chat application built with Next.js 14+, TypeSc
    NEXTAUTH_SECRET="your-secret-key" # Generate with: openssl rand -base64 32
    NEXTAUTH_URL="http://localhost:3000"
    
-   # Email (optional, for password reset)
-   EMAIL_SERVER="smtp://username:password@smtp.example.com:587"
-   EMAIL_FROM="noreply@yourdomain.com"
-   
    # OpenAI (for AI features)
    OPENAI_API_KEY="your-openai-api-key"
-   OPENAI_MODEL="gpt-4"
+   # Optional: defaults to gpt-4o-mini if not provided
+   OPENAI_MODEL="gpt-4o-mini"
    ```
    
    To generate a secure NEXTAUTH_SECRET, you can run:
@@ -74,7 +71,7 @@ A professional career counseling chat application built with Next.js 14+, TypeSc
    npx prisma generate
    
    # Run database migrations
-   npx prisma migrate dev --name init
+   npx prisma db push
    
    # (Optional) Seed the database with initial data
    npx prisma db seed
@@ -112,8 +109,6 @@ A professional career counseling chat application built with Next.js 14+, TypeSc
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-<!-- Demo authentication section removed: the app now requires real sign-up/sign-in via NextAuth credentials. -->
-
 ## 📊 Database Schema
 
 The application uses the following main entities:
@@ -125,12 +120,13 @@ The application uses the following main entities:
 
 ## 🤖 AI Integration
 
-Currently uses enhanced rule-based responses for career counseling. The system is designed to easily integrate with OpenAI's API:
+This app integrates directly with OpenAI Chat Completions using a focused system prompt tailored for career counseling.
 
-- Placeholder AI service in `lib/ai/career-counselor.ts`
-- Ready for OpenAI GPT-4 integration
-- Contextual conversation history
-- Specialized career counseling prompts
+- Real provider in `lib/ai/career-counselor.ts` using `fetch` to call the OpenAI API
+- System prompt is concise and purpose-built for career guidance
+- Contextual conversation history is included (recent messages window)
+- Fallback to a safe mock response if `OPENAI_API_KEY` is not set (useful for local dev)
+- Default model is `gpt-4o-mini` (configurable via `OPENAI_MODEL`)
 
 ## 🎯 Career Counseling Features
 
@@ -153,25 +149,32 @@ The AI counselor provides guidance on:
 
 ## 🔧 Development Scripts
 
-\`\`\`bash
+```bash
 # Development
 npm run dev          # Start development server
 npm run build        # Build for production
 npm run start        # Start production server
 npm run lint         # Run ESLint
 
-# Database
-npm run db:generate  # Generate Prisma client
-npm run db:push      # Push schema to database
-\`\`\`
+# Database (use npx commands)
+npx prisma generate  # Generate Prisma client
+npx prisma db push   # Push schema to local database (dev)
+```
 
 ## 🚀 Deployment
 
 The application is ready for deployment on Vercel:
 
-1. Connect your repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+1. Connect your repository to Vercel (public GitHub repo recommended)
+2. Ensure Vercel uses npm (remove `pnpm-lock.yaml` if present); Install Command: `npm ci` (or `npm install`)
+3. Environment variables to set in Vercel:
+   - `DATABASE_URL`
+   - `NEXTAUTH_SECRET`
+   - `NEXTAUTH_URL` (e.g., https://your-app.vercel.app)
+   - `OPENAI_API_KEY` (for AI responses)
+   - `OPENAI_MODEL` (optional; defaults to `gpt-4o-mini`)
+4. Prisma: `postinstall` runs `prisma generate` automatically. For production migrations, run `npx prisma migrate deploy`.
+5. Deploy automatically on push to main branch
 
 For database, consider using:
 - **Neon**: Serverless PostgreSQL (recommended)
@@ -180,35 +183,7 @@ For database, consider using:
 
 ## 🔮 Future Enhancements
 
-- [ ] OpenAI GPT-4 integration for advanced AI responses
-- [ ] NextAuth.js with multiple providers (Google, GitHub, etc.)
-- [ ] Real-time messaging with WebSockets
-- [ ] File upload for resume analysis
-- [ ] Calendar integration for scheduling sessions
-- [ ] Email notifications and reminders
-- [ ] Advanced analytics and reporting
-- [ ] Mobile app with React Native
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](../../issues) page
-2. Create a new issue with detailed information
-3. Join our community discussions
-
----
-
+* Add Together/OpenRouter provider options via env flags
+* Add message pagination for long histories
+* Real-time typing indicators and delivery states
 Built with ❤️ using Next.js, TypeScript, and modern web technologies.
