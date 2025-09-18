@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { UserMenu } from "@/components/auth/user-menu"
 
 export function Navbar() {
@@ -11,7 +12,7 @@ export function Navbar() {
   const isLoading = status === "loading"
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b mb-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full mx-auto border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between m-auto">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center space-x-2">
@@ -26,22 +27,26 @@ export function Navbar() {
             </Link>
             {isAuthenticated && (
               <Link
-                href="/sessions"
+                href="/dashboard"
                 className="text-sm font-medium transition-colors hover:text-primary"
               >
-                My Sessions
+                Dashboard
               </Link>
             )}
           </nav>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {isLoading ? (
             <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
           ) : isAuthenticated ? (
-            <UserMenu />
+            <>
+              <ThemeToggle />
+              <UserMenu />
+            </>
           ) : (
             <>
+              <ThemeToggle />
               <Button variant="ghost" asChild>
                 <Link href="/login">Sign In</Link>
               </Button>

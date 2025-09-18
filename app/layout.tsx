@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { Providers } from "@/lib/providers"
 import { MainLayout } from "@/components/layout/main-layout"
+import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -19,14 +20,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`h-screen overflow-hidden font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={null}>
-          <Providers>
-            <MainLayout>{children}</MainLayout>
-          </Providers>
-        </Suspense>
-        <Analytics />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`h-screen mx-auto font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Suspense fallback={null}>
+            <Providers>
+              <MainLayout>{children}</MainLayout>
+            </Providers>
+          </Suspense>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -4,74 +4,99 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  /* Light theme based on provided palette */
+  --background: #f0ebd8; /* Eggshell */
+  --foreground: #0d1321; /* Rich black */
+
+  --card: #ffffff;
+  --card-foreground: #0d1321;
+
+  --popover: #ffffff;
+  --popover-foreground: #0d1321;
+
+  --primary: #1d2d44; /* Prussian blue */
+  --primary-foreground: #f0ebd8; /* Eggshell */
+
+  --secondary: #748cab; /* Silver Lake Blue */
+  --secondary-foreground: #0d1321; /* Rich black */
+
+  --muted: #e3e8ee; /* Silver Lake Blue 900 */
+  --muted-foreground: #3e5c76; /* Payne's gray */
+
+  --accent: #3e5c76; /* Payne's gray */
+  --accent-foreground: #f0ebd8;
+
+  --destructive: #b91c1c; /* red-700 */
+  --destructive-foreground: #ffffff;
+
+  --border: #c7d1dd; /* Silver Lake Blue 800 */
+  --input: #c7d1dd;
+  --ring: #1d2d44; /* Prussian blue */
+
+  --chart-1: #3e5c76;
+  --chart-2: #1d2d44;
+  --chart-3: #748cab;
+  --chart-4: #0d1321;
+  --chart-5: #f0ebd8;
+
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Sidebar */
+  --sidebar: #f6f2e7; /* Eggshell 700 */
+  --sidebar-foreground: #0d1321;
+  --sidebar-primary: #1d2d44;
+  --sidebar-primary-foreground: #f0ebd8;
+  --sidebar-accent: #e3e8ee;
+  --sidebar-accent-foreground: #3e5c76;
+  --sidebar-border: #c7d1dd;
+  --sidebar-ring: #1d2d44;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  /* Dark theme based on provided palette */
+  --background: #0d1321; /* Rich black */
+  --foreground: #f0ebd8; /* Eggshell */
+
+  --card: #1d2d44; /* Prussian blue */
+  --card-foreground: #f0ebd8;
+
+  --popover: #1d2d44;
+  --popover-foreground: #f0ebd8;
+
+  --primary: #748cab; /* Silver Lake Blue */
+  --primary-foreground: #0d1321; /* Rich black */
+
+  --secondary: #3e5c76; /* Payne's gray */
+  --secondary-foreground: #f0ebd8;
+
+  --muted: #253746; /* Payne's/Dark mix */
+  --muted-foreground: #abb9cd; /* Silver Lake Blue 700 */
+
+  --accent: #3e5c76;
+  --accent-foreground: #f0ebd8;
+
+  --destructive: #7f1d1d; /* red-900 */
+  --destructive-foreground: #f0f0f0;
+
+  --border: #253746;
+  --input: #253746;
+  --ring: #748cab;
+
+  --chart-1: #748cab;
+  --chart-2: #3e5c76;
+  --chart-3: #1d2d44;
+  --chart-4: #bdc9e5;
+  --chart-5: #f0ebd8;
+
+  /* Sidebar */
+  --sidebar: #111b29; /* Prussian 300 */
+  --sidebar-foreground: #f0ebd8;
+  --sidebar-primary: #748cab;
+  --sidebar-primary-foreground: #0d1321;
+  --sidebar-accent: #253746;
+  --sidebar-accent-foreground: #e3e8ee;
+  --sidebar-border: #172436;
+  --sidebar-ring: #748cab;
 }
 
 @theme inline {

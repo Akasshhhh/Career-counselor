@@ -3,13 +3,12 @@
 import type React from "react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { signOut } from "next-auth/react"
 import { trpc } from "@/lib/trpc/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Card } from "@/components/ui/card"
-import { Plus, MessageSquare, Trash2, LogOut, Loader2 } from "lucide-react"
+import { Plus, MessageSquare, Trash2  } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useSession } from "next-auth/react"
 
@@ -87,14 +86,10 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
     }
   }
 
-  const handleSignOut = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    signOut({ callbackUrl: "/login" })
-  }
 
   return (
-    <Card className="w-full h-full flex flex-col">
-      <div className="p-4 border-b flex-shrink-0">
+    <Card className="w-full h-full flex flex-col overflow-hidden min-h-0 border-0 md:border bg-transparent md:bg-card shadow-none md:shadow-sm rounded-lg">
+      <div className="p-3 md:p-4 border-b flex-shrink-0">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -102,10 +97,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
             </div>
             <span className="text-sm font-medium">{session?.user?.name || "User"}</span>
           </div>
-          <Button variant="ghost" size="icon" onClick={handleSignOut}>
-            <LogOut className="h-4 w-4" />
-          </Button>
-        </div>
+        </div>   
         {isCreating ? (
           <form onSubmit={handleCreateSession} className="space-y-2">
             <Input
@@ -142,7 +134,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
       </div>
 
       <ScrollArea className="flex-1 min-h-0">
-        <div className="p-4">
+        <div className="p-3 md:p-4">
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
