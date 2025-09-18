@@ -55,15 +55,15 @@ export function HeroSection() {
           {/* Trust indicators */}
           <div className="mt-16 flex flex-col items-center gap-8 sm:flex-row sm:justify-center">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Shield className="h-4 w-4 text-green-500" />
+              <Shield className="h-4 w-4 text-secondary" />
               Secure & Private
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Users className="h-4 w-4 text-blue-500" />
+              <Users className="h-4 w-4 text-primary" />
               Trusted by Professionals
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <TrendingUp className="h-4 w-4 text-purple-500" />
+              <TrendingUp className="h-4 w-4 text-accent" />
               Proven Results
             </div>
           </div>

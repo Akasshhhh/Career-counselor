@@ -102,6 +102,12 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Brand palette utilities */
+  --color-rich_black: #0d1321;
+  --color-prussian_blue: #1d2d44;
+  --color-paynes_gray: #3e5c76;
+  --color-silver_lake_blue: #748cab;
+  --color-eggshell: #f0ebd8;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

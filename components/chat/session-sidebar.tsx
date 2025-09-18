@@ -15,9 +15,10 @@ import { useSession } from "next-auth/react"
 interface SessionSidebarProps {
   selectedSessionId?: string
   onSelectSession: (sessionId: string) => void
+  autoSelectFirst?: boolean
 }
 
-export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSidebarProps) {
+export function SessionSidebar({ selectedSessionId, onSelectSession, autoSelectFirst = true }: SessionSidebarProps) {
   const { data: session } = useSession()
   const router = useRouter()
   const [newSessionTitle, setNewSessionTitle] = useState("")
@@ -29,12 +30,12 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
     enabled: !!session?.user
   })
 
-  // Auto-select the first session if none is selected
+  // Optionally auto-select the first session if none is selected
   useEffect(() => {
-    if (!selectedSessionId && sessions && sessions.length > 0) {
+    if (autoSelectFirst && !selectedSessionId && sessions && sessions.length > 0) {
       onSelectSession(sessions[0].id)
     }
-  }, [selectedSessionId, sessions, onSelectSession])
+  }, [autoSelectFirst, selectedSessionId, sessions, onSelectSession])
 
   const createSessionMutation = trpc.chat.createSession.useMutation({
     onSuccess: (session) => {
@@ -89,7 +90,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
 
   return (
     <Card className="w-full h-full flex flex-col overflow-hidden min-h-0 border-0 md:border bg-transparent md:bg-card shadow-none md:shadow-sm rounded-lg">
-      <div className="p-3 md:p-4 border-b flex-shrink-0">
+      <div className="sticky top-0 z-10 p-3 md:p-4 border-b bg-background/80 md:bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex-shrink-0">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -97,7 +98,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
             </div>
             <span className="text-sm font-medium">{session?.user?.name || "User"}</span>
           </div>
-        </div>   
+        </div>  
         {isCreating ? (
           <form onSubmit={handleCreateSession} className="space-y-2">
             <Input
@@ -126,7 +127,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
             </div>
           </form>
         ) : (
-          <Button id="create-session-button" onClick={() => setIsCreating(true)} className="w-full" variant="outline">
+          <Button id="create-session-button" onClick={() => setIsCreating(true)} className="w-full">
             <Plus className="h-4 w-4 mr-2" />
             Create New Chat
           </Button>
@@ -149,9 +150,12 @@ export function SessionSidebar({ selectedSessionId, onSelectSession }: SessionSi
               {sessions?.map((session: { id: string; title: string; _count: { messages: number } }) => (
                 <div
                   key={session.id}
+                  role="button"
+                  tabIndex={0}
+                  aria-selected={selectedSessionId === session.id}
                   className={cn(
-                    "group flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors",
-                    selectedSessionId === session.id && "bg-muted",
+                    "group flex items-center justify-between p-3 rounded-md cursor-pointer transition-colors border-l-2 border-transparent hover:bg-muted/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40",
+                    selectedSessionId === session.id && "bg-muted border-primary",
                   )}
                   onClick={() => onSelectSession(session.id)}
                 >

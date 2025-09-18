@@ -165,7 +165,7 @@ export default function ResetPasswordPage() {
                 />
               </div>
               {error && (
-                <div className="text-sm text-red-500">{error}</div>
+                <div className="text-sm text-destructive">{error}</div>
               )}
               <Button className="w-full" type="submit" disabled={isLoading}>
                 {isLoading && (

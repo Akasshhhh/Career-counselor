@@ -14,8 +14,12 @@ export function MainLayout({ children }: MainLayoutProps) {
   const isAuthed = status === "authenticated"
   return (
     <div className={`flex ${isAuthed ? "h-screen" : "min-h-screen"} flex-col`}>
-      {isAuthed ? <Navbar /> : null}
-      <main className={`flex-1 ${isAuthed ? "min-h-0 overflow-hidden" : ""}`}>{children}</main>
+      {isAuthed && <Navbar />}
+      <main className={`flex-1 ${isAuthed ? "min-h-0 overflow-auto" : "overflow-auto"}`}>
+        <div className="h-full">
+          {children}
+        </div>
+      </main>
       {!isAuthed && (
         <div className="fixed bottom-4 right-4 z-50">
           <ThemeToggle />

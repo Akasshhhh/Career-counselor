@@ -30,19 +30,21 @@ export function ChatMessage({ content, role, timestamp, status, className }: Cha
       <div className={cn("flex flex-col gap-1 max-w-[80%]", isUser ? "items-end" : "items-start")}>
         <div
           className={cn(
-            "rounded-lg px-3 py-2 text-sm",
-            isUser ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground",
+            "relative rounded-lg px-3 py-2 text-sm shadow-sm",
+            isUser
+              ? "bg-primary text-primary-foreground"
+              : "bg-card text-card-foreground border border-border",
           )}
         >
-          <p className="whitespace-pre-wrap">{content}</p>
+          <p className="whitespace-pre-wrap">{content}</p>          
         </div>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-xs text-muted-foreground/80">
           {timestamp?.toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
           }) || ''}
           {isError && (
-            <span className="text-red-500 ml-2">
+            <span className="text-destructive ml-2">
               Failed to send
             </span>
           )}

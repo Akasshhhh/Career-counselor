@@ -42,7 +42,7 @@ export function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask about your career goals, job search strategies, or professional development..."
-            className="w-full min-h-[48px] md:min-h-[56px] max-h-32 md:max-h-40 resize-none rounded-xl text-sm md:text-base flex pt-3 placeholder:text-gray-400"
+            className="w-full min-h-[48px] md:min-h-[56px] max-h-32 md:max-h-40 resize-none rounded-xl text-sm md:text-base flex pt-3 placeholder:text-muted-foreground"
             disabled={disabled}
           />
         </div>
